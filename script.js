@@ -4,23 +4,20 @@ let isMobileScrollEnabled = false;
 function enableMobileScroll() {
     if (window.innerWidth > 640) return;
     isMobileScrollEnabled = true;
-    document.body.style.overflow = 'visible';
+    
+    // Включаем стандартную прокрутку
+    document.body.style.overflow = 'auto';
     document.body.style.height = 'auto';
     document.body.style.position = 'relative';
     document.body.style['-webkit-overflow-scrolling'] = 'touch';
-}
-
-// Debounce для ограничения частоты вызовов
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
+    
+    // Убираем фиксированное позиционирование контейнера
+    const viewportContainer = document.querySelector('.viewport-container');
+    if (viewportContainer) {
+        viewportContainer.style.position = 'relative';
+        viewportContainer.style.height = '100vh';
+        viewportContainer.style.overflow = 'visible';
+    }
 }
 
 // Обновление контента
@@ -31,7 +28,6 @@ function updateContent() {
     const isDesktop = window.innerWidth > 640;
     const isAlreadyDesktop = document.body.classList.contains('desktop-mode');
 
-    // Пропускаем, если режим не изменился
     if (isDesktop && isAlreadyDesktop) return;
     if (!isDesktop && !isAlreadyDesktop) return;
 
@@ -73,14 +69,18 @@ function initializeElements() {
     const photoText = document.querySelector('.photo-text');
     const countdown = document.querySelector('.countdown');
     const backgroundMusic = document.getElementById('background-music');
-    const scrollDownBtn = document.querySelector('.scroll-down-btn');
 
-    function scrollDown() {
+    // Создаем кнопку прокрутки вниз
+    const scrollDownBtn = document.createElement('div');
+    scrollDownBtn.className = 'scroll-down-btn';
+    scrollDownBtn.innerHTML = '↓';
+    scrollDownBtn.addEventListener('click', () => {
         window.scrollBy({
-            top: window.innerHeight * 0.8,
+            top: window.innerHeight,
             behavior: 'smooth'
         });
-    }
+    });
+    document.body.appendChild(scrollDownBtn);
 
     if (famImage) {
         famImage.addEventListener(
@@ -98,12 +98,6 @@ function initializeElements() {
                     if (zapImage) zapImage.style.display = 'none';
                     if (textInvite) textInvite.style.display = 'none';
 
-                    document.body.style.overflow = 'auto';
-                    if (viewportContainer) {
-                        viewportContainer.style.position = 'relative';
-                        viewportContainer.style.height = '100vh';
-                    }
-
                     if (backgroundMusic) {
                         backgroundMusic.play().catch((err) => console.error('Ошибка воспроизведения аудио:', err));
                     }
@@ -116,11 +110,6 @@ function initializeElements() {
                         item.style.display = 'block';
                     });
                     if (photoText) photoText.style.display = 'block';
-
-                    // Автоматическая прокрутка вниз
-                    setTimeout(() => {
-                        scrollDown();
-                    }, 1000);
 
                     setTimeout(() => {
                         if (countdown) {
@@ -142,23 +131,27 @@ function initializeElements() {
                         });
                     }, 2500);
 
-                    // Показываем кнопку прокрутки через 5 секунд
                     setTimeout(() => {
-                        if (scrollDownBtn) scrollDownBtn.classList.add('visible');
-                    }, 5000);
-                }, 500);
-
-                setTimeout(() => {
-                    if (names) names.classList.add('show');
-                }, 2500);
-
-                setTimeout(() => {
-                    if (date) date.classList.add('show');
-                }, 2700);
-
-                setTimeout(() => {
-                    if (scrollText) scrollText.classList.add('show');
-                }, 3000);
+                        if (names) {
+                            names.style.bottom = '85%';
+                            names.style.opacity = '1';
+                        }
+                    }, 2500);
+                    
+                    setTimeout(() => {
+                        if (date) {
+                            date.style.bottom = '80%';
+                            date.style.opacity = '1';
+                        }
+                    }, 2700);
+                    
+                    setTimeout(() => {
+                        if (scrollText) {
+                            scrollText.style.bottom = '20px';
+                            scrollText.style.opacity = '1';
+                        }
+                    }, 3000);
+                }, 0);
             },
             { once: true }
         );
@@ -166,7 +159,7 @@ function initializeElements() {
 
     // Скрываем кнопку при прокрутке
     window.addEventListener('scroll', () => {
-        if (scrollDownBtn && window.scrollY > 100) {
+        if (window.scrollY > 100) {
             scrollDownBtn.classList.remove('visible');
         }
     });
@@ -202,7 +195,7 @@ window.addEventListener('load', () => {
     initializeElements();
 });
 
-document.addEventListener('DOMContentLoaded', function initializeContent() {
+function initializeContent() {
     const dynamicContent = document.getElementById('dynamic-content');
     if (!dynamicContent) {
         console.error('dynamicContent not found');
@@ -227,10 +220,11 @@ document.addEventListener('DOMContentLoaded', function initializeContent() {
         dynamicContent.innerHTML = '';
         document.body.classList.remove('desktop-mode');
     }
-});
+}
 
-// Логика обратного отсчёта
 document.addEventListener('DOMContentLoaded', function () {
+    initializeContent();
+    
     const weddingDate = new Date('2025-07-26T00:00:00');
     const daysToAdd = 0;
     const hoursToAdd = 0;
@@ -272,48 +266,48 @@ document.addEventListener('DOMContentLoaded', function () {
     circles.forEach(circle => {
         circle.classList.add('visible');
     });
-});
 
-document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('guestForm');
-    
-    form.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        
-        const formData = new FormData(form);
-        const scriptUrl = 'https://script.google.com/macros/s/AKfycbwCbxLbHJxBOKVahSN5zbXUmJxQfu3oOWaR0BaqZsYpHZBD1198BDHBLnXRtRoG79NC/exec';
-        
-        try {
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.textContent;
-            submitBtn.textContent = 'Отправка...';
-            submitBtn.disabled = true;
-
-            await fetch(scriptUrl, {
-                method: 'POST',
-                body: formData,
-                mode: 'no-cors'
-            });
-
-            alert('Спасибо за ваш ответ!');
-            form.reset();
-            
-        } catch (error) {
-            console.error('Ошибка при отправке данных:', error);
-            alert('Ваш ответ принят! Спасибо!');
-        } finally {
-            const submitBtn = form.querySelector('button[type="submit"]');
-            if (submitBtn) {
-                submitBtn.textContent = originalBtnText;
-                submitBtn.disabled = false;
-            }
+    if (form) {
+        let originalBtnText = '';
+        const submitBtn = form.querySelector('button[type="submit"]');
+        if (submitBtn) {
+            originalBtnText = submitBtn.textContent;
         }
-    });
+        
+        form.addEventListener('submit', async function (event) {
+            event.preventDefault();
+            
+            const formData = new FormData(form);
+            const scriptUrl = 'https://script.google.com/macros/s/AKfycbwCbxLbHJxBOKVahSN5zbXUmJxQfu3oOWaR0BaqZsYpHZBD1198BDHBLnXRtRoG79NC/exec';
+            
+            try {
+                if (submitBtn) {
+                    submitBtn.textContent = 'Отправка...';
+                    submitBtn.disabled = true;
+                }
+
+                await fetch(scriptUrl, {
+                    method: 'POST',
+                    body: formData,
+                    mode: 'no-cors'
+                });
+
+                alert('Спасибо за ваш ответ!');
+                form.reset();
+                
+            } catch (error) {
+                console.error('Ошибка при отправке данных:', error);
+                alert('Ваш ответ принят! Спасибо!');
+            } finally {
+                if (submitBtn) {
+                    submitBtn.textContent = originalBtnText;
+                    submitBtn.disabled = false;
+                }
+            }
+        });
+    }
 });
 
 // Добавляем слушатели событий
-window.addEventListener('load', () => {
-    updateContent();
-    initializeElements();
-});
 window.addEventListener('resize', updateContent);
