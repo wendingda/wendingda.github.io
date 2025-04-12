@@ -1,0 +1,1212 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+.loader-wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: #e0d9cf; /* Фон как у страницы */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Поверх всего */
+    transition: opacity 0.5s ease; /* Плавное исчезновение */
+}
+
+.loader, .loader:before, .loader:after {
+    border-radius: 50%;
+    width: 2.5em;
+    height: 2.5em;
+    animation-fill-mode: both;
+    animation: bblFadInOut 1.8s infinite ease-in-out;
+}
+
+.loader {
+    color: #FFF; /* Белые точки */
+    font-size: 10px; /* Чуть больше для видимости */
+    position: relative;
+    text-indent: -9999em;
+    transform: translateZ(0);
+    animation-delay: -0.16s;
+}
+
+.loader:before,
+.loader:after {
+    content: '';
+    position: absolute;
+    top: 0;
+}
+
+.loader:before {
+    left: -3.5em;
+    animation-delay: -0.32s;
+}
+
+.loader:after {
+    left: 3.5em;
+}
+
+@keyframes bblFadInOut {
+    0%, 80%, 100% { box-shadow: 0 2.5em 0 -1.3em }
+    40% { box-shadow: 0 2.5em 0 0 }
+}
+
+/* Скрытие прелоадера */
+.loader-wrapper.hidden {
+    opacity: 0;
+    pointer-events: none; /* Убираем взаимодействие после скрытия */
+}
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    touch-action: none;
+    -webkit-overflow-scrolling: none;
+}
+
+.viewport-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #e0d9cf;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    pointer-events: none;
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+}
+.viewport-container.scroll-enabled {
+    position: relative;
+    overflow: visible;
+    -webkit-overflow-scrolling: touch;
+    height: auto;
+    pointer-events: auto;
+    user-select: auto;
+    -webkit-user-select: auto;
+    -moz-user-select: auto;
+    -ms-user-select: auto;
+}
+@media (max-width: 640px) {
+    body.scroll-enabled {
+        overflow: auto !important;
+        position: relative !important;
+        height: auto !important;
+        -webkit-overflow-scrolling: touch !important;
+        touch-action: auto !important;
+    }
+}
+.mainblock {
+    width: 100%;
+    max-width: 600px;
+    text-align: center;
+    position: relative;
+    height: 100%;
+}
+
+.main {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: opacity 0.5s ease;
+}
+
+/* Стили для заглушки на десктопах */
+@media (min-width: 641px) {
+    .viewport-container,
+    .landing-content {
+        display: none; /* Скрываем сразу */
+    }
+    .desktop-only {
+        display: block;
+    }
+}
+
+@media (max-width: 640px) {
+    .desktop-only {
+        display: none;
+    }
+    .viewport-container,
+    .landing-content {
+        display: block; /* Показываем на мобильных */
+    }
+}
+
+.desktop-stub {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #e0d9cf;
+    text-align: center;
+    padding: 20px;
+    box-sizing: border-box;
+    position: fixed; /* Фиксируем заглушку */
+    top: 0;
+    left: 0;
+    z-index: 9999;
+}
+
+.desktop-stub__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    filter: brightness(0.8);
+}
+
+.desktop-stub__text {
+    font-family: 'Trajan Pro 3', serif;
+    font-size: 24px;
+    color: #fff;
+    margin: 20px 0;
+    z-index: 2;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.desktop-stub__qr img {
+    width: 150px;
+    height: 150px;
+    border: 4px solid #fff;
+    border-radius: 10px;
+    background-color: #fff;
+    z-index: 10;
+    position: relative;
+}
+
+/* Убедимся, что десктопный режим имеет приоритет */
+body.desktop-mode .viewport-container,
+body.desktop-mode .landing-content {
+    display: none !important;
+}
+.textInvite {
+    display: block;
+    position: absolute;
+    top: 80%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 200;
+    font-size: 3vw;
+    margin: 0;
+    padding: 0;
+    color: #000;
+    transition: opacity 0.5s ease;
+}
+
+.fam {
+    z-index: 999;
+    position: absolute;
+    width: 44.5vw;
+    height: 66.5vw;
+    top: 42%;
+    left: 26%;
+    border: 8px solid #fff;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+    max-width: 300px;
+    max-height: 400px;
+    pointer-events: auto;
+    transition: all 2s ease, border-width 2s ease;
+}
+
+.fam.fullscreen {
+    width: 100vw;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    max-width: none;
+    max-height: none;
+    border: 0 solid #fff;
+    z-index: 1001;
+    transform: none;
+    pointer-events: none;
+}
+
+/* Тексты, вылетающие снизу */
+.names, .date, .scroll-text {
+    font-family: 'Trajan Pro 3', serif;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1002;
+    text-align: center;
+    color: #000000;
+    opacity: 0;
+    margin: 0;
+    pointer-events: none;
+    font-weight: 500;
+}
+
+.names {
+    font-size: 7vw;
+    transition: all 1s ease-out;
+    bottom: 75%;
+}
+
+.date {
+    font-size: 5vw;
+    transition: all 1s ease-out;
+    bottom: 70%;
+}
+
+.scroll-text {
+    font-size: 4vw;
+    transition: all 1s ease-out;
+    bottom: -10px;
+}
+
+.names.show {
+    bottom: 85%;
+    opacity: 1;
+}
+
+.date.show {
+    bottom: 80%;
+    opacity: 1;
+}
+
+.scroll-text.show {
+    bottom: 20px;
+    opacity: 1;
+}
+
+.landing-content {
+    width: 100%;
+    background-color: #e0d9cf;
+    padding: 40px 20px;
+    box-sizing: border-box;
+    display: block;
+}
+
+.landing-section {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+/* Стили для управления музыкой */
+.music-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 80px;
+    gap: 10px;
+}
+
+.music-text {
+    font-family: 'Trajan Pro 3', serif;
+    font-size: 10px !important;
+    color: #666;
+    margin: 0;
+    width: 250px;
+    font-weight: bold;
+}
+
+.music-toggle {
+    width: 45px;
+    height: 45px;
+    cursor: pointer;
+    transition: opacity 0.3s ease;
+}
+
+.music-toggle:hover {
+    opacity: 0.8;
+}
+
+.landing-section h1 {
+    font-family: 'Trajan Pro 3', serif;
+    color: #000;
+    margin-bottom: 20px;
+    font-weight: 300;
+}
+
+.landing-section h2 {
+    font-family: 'Trajan Pro 3', serif;
+    font-size: 24px;
+    color: #333;
+    margin: 40px 0 20px;
+}
+.landing-section .bolder {
+    font-family: 'Trajan Pro 3', serif;
+    font-weight: 400;
+    margin-top: 60px;
+    font-size: 45px;
+}
+.landing-section p {
+    font-size: 22px;
+    color: #333;
+    line-height: 1.6;
+}
+.landing-section p span {
+    font-size: 28px;
+    font-weight: 500;
+    text-transform: uppercase
+}
+.btn {
+    text-align: center;
+    position: relative;
+    font-family: 'Trajan Pro 3', serif;
+    padding: 15px 20px;
+    font-weight: 600;
+    border-radius: 50px;
+    border: 2px solid goldenrod;
+    transition: all .3s ease-in-out;
+    display: inline-block;
+    text-transform: none;
+    text-decoration: none;
+    color: black;
+    width: 80%;
+}
+.container-btn {
+    text-align: center;
+}
+.btn:hover {
+    background-color: goldenrod;
+    color: white;
+}
+.landing-section img.calendar {
+    width: 100%;
+    height: auto; /* Адаптивная высота */
+    max-width: 500px;
+    max-height: 500px;
+    margin-top: 30px;
+}
+
+/* Стили для контейнера с полотном */
+.painting-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px;
+    margin: 30% auto;
+    text-align: center;
+    display: block;
+}
+
+.painting_4 {
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    max-height: 500px;
+    z-index: 10;
+    position: relative;
+    margin-left: 10%;
+}
+
+/* Обёртка для painting_4_5 и countdown */
+.painting_4_5_wrapper {
+    position: relative; /* Родительский контейнер для countdown */
+    margin-top: -70%;
+    margin-left: -5%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 450px;
+    max-height: 450px;
+    z-index: 1000;
+}
+
+.painting_4_5 {
+    width: 100%;
+    height: auto;
+    max-width: 450px;
+    max-height: 450px;
+    transform: rotate(185deg); /* Поворот только изображения */
+    display: block;
+}
+
+/* Стили для countdown */
+.countdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) ; /* Компенсируем поворот painting_4_5 */
+    z-index: 1001;
+    width: 80%; /* Ограничиваем ширину, чтобы не выходить за границы */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    text-align: center;
+}
+
+.countdown-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.countdown-visible {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.countdown-title {
+    font-size: 6vw; /* Адаптивный размер шрифта */
+    font-weight: 500;
+    color: #000;
+    margin-bottom: 1vw;
+    text-transform: uppercase;
+    white-space: nowrap; /* Предотвращаем перенос заголовка */
+}
+
+.countdown-timer {
+    font-size: 6vw; /* Адаптивный размер шрифта */
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 0.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Разрешаем перенос, если не помещается */
+    gap: 0.5vw;
+}
+
+.countdown-timer span {
+    display: inline-block;
+    min-width: 8vw; /* Минимальная ширина для чисел */
+    text-align: center;
+}
+
+.countdown-labels {
+    font-size: 2.5vw; /* Адаптивный размер шрифта */
+    font-weight: 400;
+    color: #000;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Разрешаем перенос, если не помещается */
+    gap: 0.5vw;
+}
+
+.countdown-labels span {
+    display: inline-block;
+    min-width: 8vw; /* Минимальная ширина для подписей */
+    text-align: center;
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    .countdown-title {
+        font-size: 4vw;
+        margin-bottom: 0.8vw;
+    }
+
+    .countdown-timer {
+        font-size: 5vw;
+        gap: 0.4vw;
+    }
+
+    .countdown-timer span {
+        min-width: 7vw;
+    }
+
+    .countdown-labels {
+        font-size: 2vw;
+        gap: 0.4vw;
+    }
+
+    .countdown-labels span {
+        min-width: 7vw;
+    }
+}
+
+@media (max-width: 400px) {
+    .countdown-title {
+        font-size: 3.5vw;
+        margin-bottom: 0.6vw;
+    }
+
+    .countdown-timer {
+        font-size: 4.5vw;
+        gap: 0.3vw;
+    }
+
+    .countdown-timer span {
+        min-width: 6vw;
+    }
+
+    .countdown-labels {
+        font-size: 1.8vw;
+        gap: 0.3vw;
+    }
+
+    .countdown-labels span {
+        min-width: 6vw;
+    }
+}
+
+/* Стили для анкеты */
+.guest-form-container {
+    margin-top: 60px;
+    text-align: center;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.guest-form {
+    width: 100%;
+    padding: 20px 0;
+    text-align: left;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+.form-group label {
+    font-family: 'Trajan Pro 3', serif;
+    font-size: 18px;
+    color: #333;
+    display: block;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.form-group input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #d4af37;
+    border-radius: 5px;
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: #333;
+    box-sizing: border-box;
+    background-color: #f5e4d7;
+}
+
+.radio-group, .checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-group label, .checkbox-group label {
+    font-family: 'Playfair Display', serif;
+    font-size: 16px;
+    color: #333;
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.radio-group input[type="radio"],
+.checkbox-group input[type="checkbox"] {
+    accent-color: #d4af37;
+    width: 18px;
+    height: 18px;
+}
+
+@media (max-width: 480px) {
+    .form-group label {
+        font-size: 16px;
+    }
+
+    .form-group input[type="text"] {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .radio-group label, .checkbox-group label {
+        font-size: 14px;
+    }
+
+    .radio-group input[type="radio"],
+    .checkbox-group input[type="checkbox"] {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+.image-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* Ограничиваем ширину контейнера */
+    height: 500px; /* Фиксируем высоту контейнера, как в исходнике */
+    margin: 0 auto; /* Центрируем контейнер */
+}
+
+.painting {
+    position: absolute;
+    top: -20%;
+    left: -10%;
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    max-height: 500px;
+    transform: rotate(270deg); /* Поворот на 270 градусов */
+    z-index: 1; /* Помещаем под фото ресторана */
+    display: none; /* Изначально скрыт, как в исходнике */
+}
+
+.restaraunt-photo {
+    position: absolute;
+    top: 47%;
+    left: 52%;
+    transform: translate(-50%, -50%); /* Центрируем поверх painting, как в исходнике */
+    width: 90%;
+    height: auto;
+    max-width: 500px;
+    max-height: 500px;
+    z-index: 1000; /* Поверх painting */
+    display: none; /* Изначально скрыт, показывается через JS */
+    border: solid #fff 10px;
+    border-bottom: solid #fff 90px; /* Толстая нижняя рамка */
+}
+
+.photo-text {
+    position: absolute;
+    top: calc(61% + (500px * 0.47 - 50% + 70px)); /* Привязываем к нижней рамке */
+    left: 52%;
+    transform: translate(-50%, -50%); /* Центрируем относительно изображения */
+    z-index: 1001;
+    font-family: 'Playfair Display', serif;
+    color: #333;
+    font-size: clamp(14px, 3vw, 18px); /* Адаптивный размер */
+    margin: 0;
+    width: 80%; /* Ограничиваем ширину текста */
+    text-align: center;
+    white-space: normal; /* Разрешаем перенос текста */
+    display: none; /* Изначально скрыт, как .restaraunt-photo */
+}
+
+/* Адаптивность для текста */
+@media (max-width: 768px) {
+    .restaraunt-photo {
+        width: 95%; /* Чуть шире для мобильных */
+    }
+
+    .photo-text {
+        font-size: clamp(12px, 2.8vw, 16px);
+        width: 85%;
+    }
+}
+
+@media (max-width: 480px) {
+    .restaraunt-photo {
+        width: 100%; /* Полная ширина на маленьких экранах */
+    }
+
+    .photo-text {
+        font-size: clamp(10px, 2.5vw, 14px);
+        width: 90%;
+        top: calc(58% + (500px * 0.47 - 50% + 70px)); /* Привязываем к нижней рамке */
+    }
+}
+.dress-code {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* Ограничиваем ширину контейнера */
+    height: auto; /* Убираем фиксированную высоту для адаптивности */
+    margin: 0 auto; /* Центрируем контейнер */
+}
+
+.painting-container {
+    position: relative; /* Контейнер для изображения и текста */
+    width: 100%;
+    max-width: 500px;
+    height: auto;
+}
+
+.painting_2 {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    max-height: 500px;
+    transform: rotate(170deg);
+    display: block;
+}
+
+.dc-text {
+    position: absolute;
+    z-index: 1000;
+    margin-top: 20%; /* Позиционируем относительно контейнера с изображением */
+    left: 50%;
+    transform: translateX(-50%) rotate(-10deg); /* Центрируем и поворачиваем */
+    text-transform: uppercase;
+    font-family: 'Trajan Pro 3', serif;
+    font-size: clamp(32px, 7vw, 40px); /* Адаптивный размер */
+    color: #333;
+
+    width: 90%; /* Ограничиваем ширину текста */
+    text-align: center;
+    white-space: nowrap; /* Предотвращаем перенос текста */
+}
+
+/* Адаптивность для текста */
+@media (max-width: 768px) {
+    .dc-text {
+        font-size: clamp(50px, 8vw, 54px) !important;
+        top: 8%;
+    }
+}
+
+@media (max-width: 480px) {
+    .dc-text {
+        font-size: clamp(40px, 7vw, 48px) !important;
+        top: 6%;
+    }
+}
+
+.dc-style {
+    position: relative;
+    z-index: 1000;
+    transform: rotate(-15deg);
+    font-size: 30px !important;
+    top: 12%;    
+    font-family: 'Agonia Lyubvi';
+}
+.dc-p {
+    position: relative;
+    top: 0%;
+    width: 70%;
+    text-align: center;
+    margin: -20% auto;
+    font-size: 22px !important;
+}
+.painting_3 {
+    margin-top: 20%;
+    width: 100%;
+    height: auto;
+    max-width: 500px;
+    max-height: 650px;
+    z-index: 10; /* Помещаем под фото ресторана */
+    position: relative;
+}
+
+.painting_3_2 {
+    width: 100%;
+    height: auto;
+    max-width: 600px;
+    max-height: 650px;
+    z-index: 10; /* Помещаем под фото ресторана */
+    position: relative;
+}
+/* Контейнер для палитры */
+.palette-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding: 20px;
+    z-index: 2; /* Убедимся, что круги выше фона */
+    margin-top: 20%;
+}
+
+/* Стили для кругов */
+.color-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid #fff; /* Белая обводка */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+    opacity: 0; /* Изначально невидимы */
+    transform: scale(0.8); /* Изначально уменьшены */
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    margin-left: -10px; /* Отрицательный margin для перекрытия */
+}
+
+/* Убираем margin у первого круга, чтобы не было смещения */
+.color-circle:first-child {
+    margin-left: 0;
+}
+
+/* Анимация появления кругов */
+.color-circle.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Задержка для каждого круга */
+.color-circle:nth-child(1) { transition-delay: 0.1s; }
+.color-circle:nth-child(2) { transition-delay: 0.2s; }
+.color-circle:nth-child(3) { transition-delay: 0.3s; }
+.color-circle:nth-child(4) { transition-delay: 0.4s; }
+.color-circle:nth-child(5) { transition-delay: 0.5s; }
+.color-circle:nth-child(6) { transition-delay: 0.6s; }
+
+@media (max-width: 600px) {
+    .color-circle {
+        width: 60px;
+        height: 60px;
+        margin-left: -8px; /* Меньше перекрытие на маленьких экранах */
+    }
+
+    .color-circle:first-child {
+        margin-left: 0;
+    }
+
+    .palette-container {
+        padding: 10px;
+    }
+}
+/* Стили для календаря и сердечка */
+.calendar-container {
+    position: relative;
+    display: none; /* Изначально скрыт */
+    width: 100%;
+    max-width: 500px; /* Ограничение ширины контейнера */
+    margin: 0 auto; /* Центрирование */
+}
+
+.heart {
+    position: absolute;
+    width: 140px; /* Начальный размер для десктопа */
+    height: 140px;
+    top: 71%; /* Позиция для десктопа */
+    left: 75.5%;
+    transform: translate(-50%, -50%);
+    opacity: 0; /* Изначально невидимо */
+    pointer-events: none;
+}
+
+.heart.animate {
+    opacity: 1; /* Устанавливаем видимость */
+    animation: heartFade 1s ease forwards; /* Анимация длится 1 секунду */
+}
+
+@keyframes heartFade {
+    from {
+        opacity: 0;
+        width: 140px;
+        height: 140px;
+    }
+    to {
+        opacity: 1;
+        width: 50px;
+        height: 50px;
+    }
+}
+.program-container {
+    margin-top: 40px;
+    position: relative;
+    display: none; /* Изначально скрыт */
+}
+
+.program-container.visible {
+    display: block; /* Показываем по таймеру */
+}
+
+.bolder {
+    font-family: 'Trajan Pro 3', serif;
+    font-weight: bold;
+    color: #333;
+    font-size: 32px; /* Увеличиваем заголовок */
+    margin-bottom: 30px;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+.dv-bolder {
+    font-family: 'Trajan Pro 3', serif;
+    font-weight: bold;
+    color: #333;
+    font-size: 32px; /* Увеличиваем заголовок */
+    margin-bottom: 30px;
+    font-weight: 500;
+    text-align: center;
+}
+.bd-bolder {
+    font-family: 'Trajan Pro 3', serif;
+    font-weight: bold;
+    color: #333;
+    font-size: 32px; /* Увеличиваем заголовок */
+    margin-bottom: 30px;
+    font-weight: 500;
+    text-align: center;
+    margin-top: 20%;
+    margin-bottom: 20%;
+}
+.bold-last {
+    font-family: 'Trajan Pro 3', serif;
+    font-weight: bold;
+    color: #333;
+    font-size: 28px; /* Увеличиваем заголовок */
+    font-weight: 500;
+    text-align: center;
+    margin-top: 30%;
+}
+.dv-p {
+    font-family: "Playfair Display", serif;
+    font-size: 18px;
+    text-align: center;
+    width: 80%;
+    margin: auto;
+    margin-bottom: 20%;
+}
+.program-container.visible .bolder {
+    opacity: 1;
+}
+
+.timeline {
+    position: relative;
+    max-width: 500px; /* Увеличиваем контейнер */
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.golden-line {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px; /* Чёткая сплошная линия */
+    height: 100%; /* Полная высота контейнера */
+    background-color: #d4af37; /* Сплошной золотой цвет */
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.program-container.visible .golden-line {
+    opacity: 1;
+}
+
+.program-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 40px 0; /* Увеличиваем расстояние между пунктами */
+    opacity: 0;
+}
+
+.program-item.animate {
+    opacity: 1;
+}
+
+.program-item .time {
+    font-family: 'Trajan Pro 3', serif;
+    font-size: 24px; /* Увеличиваем текст */
+    color: #333;
+    width: 80px; /* Фиксированная ширина для выравнивания */
+    text-align: right;
+    margin-right: 20px;
+    transform: translateX(-50px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.program-item .dot {
+    width: 16px; /* Увеличиваем точки */
+    height: 16px;
+    background-color: #d4af37;
+    border-radius: 50%;
+    position: relative;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.program-item .event {
+    font-family: 'Trajan Pro 3', serif;
+    font-size: 24px; /* Увеличиваем текст */
+    color: #333;
+    width: 200px; /* Фиксированная ширина для выравнивания */
+    text-align: left;
+    margin-left: 20px;
+    transform: translateX(50px);
+    opacity: 0;
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.program-item.animate .time {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+.program-item.animate .dot {
+    opacity: 1;
+}
+
+.program-item.animate .event {
+    transform: translateX(0);
+    opacity: 1;
+}
+
+@media (min-width: 481px) and (max-width: 565px) {
+    .golden-line {
+        left: 38%;
+    }
+}
+/* Адаптивность */
+@media (max-width: 768px) {
+    .bolder {
+        font-size: 28px;
+    }
+
+    .timeline {
+        max-width: 500px;
+    }
+
+    .golden-line {
+        width: 3px; /* Чуть тоньше для мобильных */
+        left: 39%;
+    }
+
+    .program-item .time,
+    .program-item .event {
+        font-size: 20px;
+    }
+
+    .program-item .time {
+        width: 60px;
+    }
+
+    .program-item .event {
+        width: 180px;
+    }
+
+    .program-item .dot {
+        width: 9px;
+        height: 9px;
+    }
+
+    .program-item {
+        margin: 30px 0;
+    }
+    .main {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+    }
+
+    .zap {
+        width: 35vw;
+        height: 16.67vw;
+        max-width: 240px;
+        max-height: 160px;
+        position: absolute;
+        top: 42%;
+        left: 48%;
+        transform: translate(-50%, -50%) rotate(300deg);
+        z-index: 1000;
+        object-fit: contain;
+        margin: 0;
+        padding: 0;
+        transition: opacity 0.5s ease;
+    }
+
+    .textInvite {
+        font-size: 3vw;
+    }
+
+    .landing-section img.calendar {
+        max-width: 100%; /* Адаптивная ширина календаря */
+        height: auto;
+    }
+
+    .heart {
+        width: 100px; /* Начальный размер для мобильных */
+        height: 100px;
+        top: 70.5%; /* Корректировка позиции для мобильных */
+        left: 71.5%;
+    }
+
+    @keyframes heartFade {
+        from {
+            opacity: 0;
+            width: 100px;
+            height: 100px;
+        }
+        to {
+            opacity: 1;
+            width: 60px; /* Конечный размер для мобильных */
+            height: 60px;
+        }
+    }
+}
+
+@media (max-height: 683px) {
+    .textInvite {
+        top: 84%;
+        font-size: 4vw;
+    }
+}
+
+@media (max-height: 724px) and (min-height: 684px) {
+    .textInvite {
+        top: 80%;
+    }
+}
+
+/* Для совсем маленьких экранов */
+@media (max-width: 480px) {
+    .bolder {
+        font-size: 24px;
+    }
+
+    .timeline {
+        max-width: 300px;
+    }
+
+    .golden-line {
+        width: 2px;
+        left: 35.3%;
+    }
+
+    .program-item .time,
+    .program-item .event {
+        font-size: 16px;
+    }
+
+    .program-item .time {
+        width: 50px;
+    }
+
+    .program-item .event {
+        width: 150px;
+    }
+
+    .program-item .dot {
+        width: 7px;
+        height: 7px;
+    }
+
+    .program-item {
+        margin: 25px 0;
+    }
+    .heart {
+        width: 80px; /* Начальный размер для маленьких экранов */
+        height: 80px;
+        top: 71%; /* Ещё корректировка позиции */
+        left: 71.5%;
+    }
+
+    @keyframes heartFade {
+        from {
+            opacity: 0;
+            width: 80px;
+            height: 80px;
+        }
+        to {
+            opacity: 1;
+            width: 50px; /* Конечный размер для маленьких экранов */
+            height: 50px;
+        }
+    }
+}
+/* Только для мобильных */
+@media (max-width: 640px) {
+    body.scroll-enabled {
+      overflow: auto !important;
+      position: relative !important;
+      height: auto !important;
+      -webkit-overflow-scrolling: touch !important;
+    }
+  }
